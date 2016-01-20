@@ -13,13 +13,67 @@ public class DatastoreServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-      resp.setContentType("text/html");
-      resp.getWriter().println("<html><body>");
-      resp.getWriter().println("<h2>Hello World</h2>"); //remove this line
 
-      //Add your code here
+      String paramKeyName = req.getParameter("keyname");
+      String paramValue   = req.getParameter("value");
 
-      resp.getWriter().println("</body></html>");
+      // datastore object
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+      //printwriter
+	  PrintWriter writer = resp.getWriter();
+	  writer.println("<h1> Welcome to Lo-okup ! </h1>");
+
+		if(paramKeyName == null && paramValue == null){
+
+			Query q = new Query("TaskData");
+			PreparedQuery pq = datastore.prepare(q);
+
+			for (Entity result : pq.asIterable()) {
+				String keyname = result.getKey().toString();
+				keyname = keyname.substring(10,keyname.length()-2);
+				String value   = (String) result.getProperty("value");
+				writer.println("<p> <b> Key: </b>" + keyname + "  <b> Value: </b> " + value + "</p>");
+
+			}
+
+		}
+
+		else if (paramKeyName != null && paramValue == null){
+
+
+            Key keystore = KeyFactory.createKey("TaskData", paramKeyName);
+            Entity keyname;
+
+			try {
+			   	keyname = datastore.get(keystore);
+
+			    String value = (String) keyname.getProperty("value");
+				writer.println("<p> <b> Key: </b> " + paramKeyName + " <b> Value: </b>" + value + " </p>");
+
+			} catch (EntityNotFoundException e) {
+				writer.println("<p> Sorry, didn't find what you are looking for.</p>");
+			}
+
+
+		}
+
+		else if (paramKeyName != null && paramValue != null){
+
+			Entity store = new Entity("TaskData",paramKeyName);
+			store.setProperty("value", paramValue);
+
+			Date date = new Date();
+			store.setProperty("date",date);
+			datastore.put(store);
+
+			writer.println("<p> Stored " + paramKeyName + " and "+ paramValue+" in Datastore </p>");
+		}
+
+		else {
+			writer.println("<p> Invalid Request </p>");
+		}
+
   }
 
 
