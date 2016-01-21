@@ -5,8 +5,8 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <groupId>com.main.lookup</groupId>
-    <artifactId>lookup</artifactId>
+    <groupId>cs263</groupId>
+    <artifactId>base</artifactId>
 
     <properties>
         <app.id>lo-okup</app.id>

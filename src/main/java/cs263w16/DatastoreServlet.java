@@ -1,6 +1,5 @@
-package main.lookup;
+package cs263w16;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 import java.util.*;
@@ -17,25 +16,29 @@ public class DatastoreServlet extends HttpServlet {
       String paramKeyName = req.getParameter("keyname");
       String paramValue   = req.getParameter("value");
 
-      // datastore object
+      // datastore object and memcache
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	  MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+	  syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.INFO));
 
       //printwriter
 	  PrintWriter writer = resp.getWriter();
 	  writer.println("<h1> Welcome to Lo-okup ! </h1>");
 
+
 		if(paramKeyName == null && paramValue == null){
 
+			writer.println("<h3>  Entities in Datastore </h3>");
 			Query q = new Query("TaskData");
 			PreparedQuery pq = datastore.prepare(q);
 
+			writer.println("<ol>");
 			for (Entity result : pq.asIterable()) {
-				String keyname = result.getKey().toString();
-				keyname = keyname.substring(10,keyname.length()-2);
+				String keyname = result.getKey().getName();
 				String value   = (String) result.getProperty("value");
-				writer.println("<p> <b> Key: </b>" + keyname + "  <b> Value: </b> " + value + "</p>");
-
+				writer.println("<li> <pre> <b> Key: </b>" + keyname + "  <b>     Value: </b> " + value + " </pre> </li>");
 			}
+			writer.println("</ol>");
 
 		}
 
@@ -43,7 +46,7 @@ public class DatastoreServlet extends HttpServlet {
 
 
             Key keystore = KeyFactory.createKey("TaskData", paramKeyName);
-            Entity keyname;
+            Entity keyname, memval;
 
 			try {
 			   	keyname = datastore.get(keystore);
@@ -51,14 +54,25 @@ public class DatastoreServlet extends HttpServlet {
 			    String value = (String) keyname.getProperty("value");
 				writer.println("<p> <b> Key: </b> " + paramKeyName + " <b> Value: </b>" + value + " </p>");
 
+				memval = (Entity) syncCache.get(paramKeyName);
+				if(memval != null) {
+					writer.println("Data found in BOTH");
+				}
+
+				else {
+					syncCache.put(paramKeyName, keyname);
+					writer.println("Data found in DATASTORE");
+				}
+
 			} catch (EntityNotFoundException e) {
-				writer.println("<p> Sorry, didn't find what you are looking for.</p>");
+				writer.println("<p> found in NEITHER. </p>");
+
 			}
 
 
 		}
 
-		else if (paramKeyName != null && paramValue != null){
+		else if (paramKeyName != null && paramValue != null) {
 
 			Entity store = new Entity("TaskData",paramKeyName);
 			store.setProperty("value", paramValue);
@@ -66,8 +80,9 @@ public class DatastoreServlet extends HttpServlet {
 			Date date = new Date();
 			store.setProperty("date",date);
 			datastore.put(store);
+			syncCache.put(paramKeyName,store);
 
-			writer.println("<p> Stored " + paramKeyName + " and "+ paramValue+" in Datastore </p>");
+			writer.println("<p> Stored " + paramKeyName + " and "+ paramValue+" in Datastore and Memcache </p>");
 		}
 
 		else {
