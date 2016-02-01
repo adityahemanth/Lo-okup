@@ -8,7 +8,7 @@ public class Post {
   private String postkey;
   private String title;
   private String content;
-  private Key parent
+  private String user;
   private Date dateCreated;
 
   //constructors (default () and (String,String,String,Date))
@@ -16,12 +16,14 @@ public class Post {
   	postkey = "";
     title = "";
     content = "";
+    user = "";
     dateCreated = new Date();
   }
 
-  public Post(String postkey, String title, String content, Date dateCreated) {
+  public Post(String postkey, String title, String username, String content, Date dateCreated) {
   	this.postkey = postkey;
   	this.title = title;
+    this.user = username;
   	this.content = content;
     this.dateCreated = new Date();
   }
@@ -34,6 +36,10 @@ public class Post {
   	return title;
   }
 
+  public String getUser(){
+    return user;
+  }
+
   public String getContent() {
     return content;
   }
@@ -42,8 +48,12 @@ public class Post {
   	return dateCreated;
   }
 
-  public void setusername(String postkey){
+  public void setPostkey(String postkey){
   	this.postkey = postkey;
+  }
+
+  public void setUser(String user){
+    this.user = user;
   }
 
   public void setTitle(String title) {

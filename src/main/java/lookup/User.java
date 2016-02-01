@@ -17,7 +17,7 @@ public class User {
   	fullName = "";
     description = "";
     dob = new Date();
-  	date = new Date();
+  	dateCreated = new Date();
   }
 
   public User(String username, String fullName, String description, Date dob) {
@@ -42,6 +42,10 @@ public class User {
 
   public Date getDOB() {
   	return dob;
+  }
+
+  public Date getDateCreated(){
+    return dateCreated;
   }
 
   public void setusername(String username){
