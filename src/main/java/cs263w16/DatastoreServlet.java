@@ -36,7 +36,8 @@ public class DatastoreServlet extends HttpServlet {
 			for (Entity result : pq.asIterable()) {
 				String keyname = result.getKey().getName();
 				String value   = (String) result.getProperty("value");
-				writer.println("<li> <pre> <b> Key: </b>" + keyname + "  <b>     Value: </b> " + value + " </pre> </li>");
+				Date date   = (Date) result.getProperty("date");
+				writer.println("<li> <pre> <b> Key: </b>" + keyname + "  <b>     Value: </b> " + value + " <b>     Date: " +date+ " </pre> </li>");
 			}
 			writer.println("</ol>");
 
