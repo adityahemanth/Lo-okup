@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+ <!-- Custom mappings -->
+ <servlet>
+  <servlet-name>myservlet</servlet-name>
+  <servlet-class>lookup.MyServlet</servlet-class>
+ </servlet>
+
+ <servlet>
+  <servlet-name>adduser</servlet-name>
+  <servlet-class>lookup.AddUser</servlet-class>
+ </servlet> 
+
+  <servlet>
+  <servlet-name>updateworker</servlet-name>
+  <servlet-class>lookup.UpdateWorker</servlet-class>
+ </servlet> 
+
+ <!-- End of custom mappings --> 
+
  <servlet>
   <servlet-name>datastore</servlet-name>
   <servlet-class>cs263w16.DatastoreServlet</servlet-class>
@@ -15,6 +33,26 @@
   <servlet-name>enqueue</servlet-name>
   <servlet-class>cs263w16.Enqueue</servlet-class>
  </servlet>
+
+
+ <!-- Custom mappings -->
+ 
+ <servlet-mapping>
+  <servlet-name>myservlet</servlet-name>
+  <url-pattern>/myservlet</url-pattern>
+ </servlet-mapping>
+
+ <servlet-mapping>
+  <servlet-name>adduser</servlet-name>
+  <url-pattern>/adduser</url-pattern>
+ </servlet-mapping>
+
+ <servlet-mapping>
+  <servlet-name>updateworker</servlet-name>
+  <url-pattern>/updateworker</url-pattern>
+ </servlet-mapping>
+
+ <!-- End of mappings -->
 
  <servlet-mapping>
   <servlet-name>datastore</servlet-name>
