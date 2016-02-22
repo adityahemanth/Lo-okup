@@ -76,7 +76,7 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Lo-okup!!</h1>
-            <p class="lead"> lookup lets you </p>
+            <p class="lead"> Lookup places, restaurants, hikes or theaters around you. Share places of interests with friends and rate the places they share.</p>
     	    <p class="lead">
             
 			<p><a href="<%= userService.createLoginURL("/reg.jsp") %>" class="btn btn-lg btn-default"> Please Sign in </a>

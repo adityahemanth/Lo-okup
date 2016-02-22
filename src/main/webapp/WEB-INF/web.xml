@@ -17,6 +17,11 @@
   <servlet-class>lookup.UpdateWorker</servlet-class>
  </servlet> 
 
+  <servlet>
+  <servlet-name>settings</servlet-name>
+  <servlet-class>lookup.Settings</servlet-class>
+  </servlet> 
+
  <!-- End of custom mappings --> 
 
  <servlet>
@@ -26,7 +31,7 @@
 
 <servlet>
   <servlet-name>worker</servlet-name>
-  <servlet-class>cs263w16.Worker</servlet-class>
+  <servlet-class>lookup.Worker</servlet-class>
 </servlet>
 
  <servlet>
@@ -50,6 +55,12 @@
  <servlet-mapping>
   <servlet-name>updateworker</servlet-name>
   <url-pattern>/updateworker</url-pattern>
+ </servlet-mapping>
+
+
+<servlet-mapping>
+  <servlet-name>settings</servlet-name>
+  <url-pattern>/settings</url-pattern>
  </servlet-mapping>
 
  <!-- End of mappings -->
