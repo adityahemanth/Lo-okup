@@ -22,6 +22,21 @@
   <servlet-class>lookup.Settings</servlet-class>
   </servlet> 
 
+  <servlet>
+    <servlet-name>Upload</servlet-name>
+    <servlet-class>lookup.Upload</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>Serve</servlet-name>
+    <servlet-class>lookup.Serve</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>Parent</servlet-name>
+    <servlet-class>lookup.Parent</servlet-class>
+  </servlet>
+
  <!-- End of custom mappings --> 
 
  <servlet>
@@ -62,6 +77,21 @@
   <servlet-name>settings</servlet-name>
   <url-pattern>/settings</url-pattern>
  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Serve</servlet-name>
+    <url-pattern>/serve</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Parent</servlet-name>
+    <url-pattern>/parent</url-pattern>
+  </servlet-mapping>
 
  <!-- End of mappings -->
 
