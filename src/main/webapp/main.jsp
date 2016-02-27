@@ -16,15 +16,22 @@
     </head>
     <body>
 
+    <div class = "container">
     <%
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
     %>
 
         <form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
-            <input type="file" name="myFile">
-            <!-- <input type="hidden" name="owner" value= "<%= user.toString(); %>" > -->
-            <input type="submit" value="Submit">
+        <ul>
+            <li><input type="text" name="title"></li>
+            <li><input type="radio" name="public" value="true" checked> Public</li>
+            <li><input type="radio" name="public" value="false"> Private</li>
+            <li><input type="file" name="photo"></li>
+            <li><input type="submit" value="Submit"></li>
+        </ul>
         </form>
+
+    </div>
     </body>
 </html>

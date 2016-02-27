@@ -9,6 +9,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.io.*,java.util.*" %>
 <%@ page import="javax.servlet.http.HttpServletRequest" %>   
+<%@ page import="com.google.appengine.api.blobstore.*" %>
+<%@ page import="com.google.appengine.api.datastore.*" %>
+<%@ page import="com.google.appengine.api.images.*" %>
+<%@ page import="com.google.appengine.api.datastore.Query.*" %>
+<%@ page import="com.google.appengine.api.datastore.Query.Filter" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +24,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Home Page - CEN Bot</title>
+    <title>Lo-okup</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -31,10 +36,6 @@
 
   <body>
 
-
-
-
-
     <div class="container">
 
       <div class="masthead">
@@ -42,6 +43,17 @@
 <%
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
+
+    Key userKey = KeyFactory.createKey("User", user.toString());
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    try {
+      Entity currentUser = datastore.get(userKey);
+      System.out.println("User exists \n\n\n\n");
+    } catch (Exception e) {
+      response.sendRedirect("/reg.jsp");  
+    }
+
 %>
 
 
@@ -49,8 +61,8 @@
          
         <div role="navigation">
           <ul class="nav nav-justified">
-            <li class="active"><a href="#"></a></li>
-            <li><a href="#"></a></li>
+            <li class="active"><a href="#"> <%= user.toString() %> </a></li>
+            <li><a href="/main.jsp">Upload</a></li>
             <li><a href="#"></a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="<%= userService.createLogoutURL("/login.jsp") %>">Sign out</a></li>
@@ -64,7 +76,37 @@
 
 
       <div class= "container">
-        
+
+          <%
+
+            ImagesService imagesService = ImagesServiceFactory.getImagesService();
+
+            Filter publicFilter = new FilterPredicate("public",
+                      FilterOperator.EQUAL,
+                      "true");
+
+            Filter ownership = new FilterPredicate("owner",FilterOperator.EQUAL,user.toString());
+
+            Filter compFilter = CompositeFilterOperator.or(ownership, publicFilter);
+
+
+            Query q = new Query("Photo").setFilter(compFilter);
+            PreparedQuery pq = datastore.prepare(q);
+
+            for (Entity result : pq.asIterable()) {
+            BlobKey blobKey = new BlobKey(result.getProperty("blobkey").toString());
+
+              %>
+
+              <img src="<%= imagesService.getServingUrl(blobKey) %>" >
+
+              <%
+            }
+
+          %>
+
+
+
       </div>
 
       <!-- Site footer -->
