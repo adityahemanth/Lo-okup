@@ -11,6 +11,9 @@
 <%@ page import="javax.servlet.http.HttpServletRequest" %>   
 <%@ page import="com.google.appengine.api.blobstore.*" %>
 <%@ page import="com.google.appengine.api.datastore.*" %>
+<%@ page import="com.google.appengine.api.blobstore.*" %>
+<%@ page import="com.google.appengine.api.datastore.GeoPt" %>
+<%@ page import="com.google.appengine.api.datastore.Query.GeoRegion.*" %>
 <%@ page import="com.google.appengine.api.images.*" %>
 <%@ page import="com.google.appengine.api.datastore.Query.*" %>
 <%@ page import="com.google.appengine.api.datastore.Query.Filter" %>
@@ -42,17 +45,21 @@
       
 <%
     UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-
-    Key userKey = KeyFactory.createKey("User", user.toString());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    User user = null;
 
     try {
+      user = userService.getCurrentUser();
+      Key userKey = KeyFactory.createKey("User", user.toString());
       Entity currentUser = datastore.get(userKey);
-      System.out.println("User exists \n\n\n\n");
+      System.out.println("\n\n\n\n User exists \n\n\n\n");
+
     } catch (Exception e) {
       response.sendRedirect("/reg.jsp");  
     }
+
+    if(user == null)
+       response.sendRedirect("/reg.jsp");  
 
 %>
 
@@ -85,9 +92,13 @@
                       FilterOperator.EQUAL,
                       "true");
 
+            GeoPt center = new GeoPt(37.7913156f,-122.3926051f);
+            double radius = 5000;
+            Filter f = new StContainsFilter("location", new Circle(center, radius));
+
             Filter ownership = new FilterPredicate("owner",FilterOperator.EQUAL,user.toString());
 
-            Filter compFilter = CompositeFilterOperator.or(ownership, publicFilter);
+            Filter compFilter = CompositeFilterOperator.and(f,publicFilter);
 
 
             Query q = new Query("Photo").setFilter(compFilter);

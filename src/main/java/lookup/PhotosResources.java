@@ -19,7 +19,7 @@ import javax.ws.rs.core.UriInfo;
 
 // Will map the resource to the URL todos
 @Path("/todos")
-public class TodosResource {
+public class PhotosResources {
 
   // Allows to insert contextual objects into the class,
   // e.g. ServletContext, Request, Response, UriInfo
@@ -84,3 +84,6 @@ public class TodosResource {
 
 } 
 
+
+// define TodosResource for my images
+// define two getters ( HTML / JSON)

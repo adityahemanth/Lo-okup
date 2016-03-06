@@ -1,4 +1,4 @@
-package lookup;
+package lookup.models;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
@@ -6,24 +6,21 @@ import java.util.*;
 // JAX-RS supports an automatic mapping from JAXB annotated class to XML and JSON
 public class User {
   private String username;
-  private String fullName;
+  private String email;
+  private String fullname;
   private String description;
   private Date dob;
   private Date dateCreated;
 
   //constructors (default () and (String,String,String,Date))
   public User() {
-  	username = "";
-  	fullName = "";
-    description = "";
-    dob = new Date();
-  	dateCreated = new Date();
   }
 
-  public User(String username, String fullName, String description, Date dob) {
+  public User(String username, String email, String fullname, String description, Date dob) {
   	this.username = username;
-  	this.fullName = fullName;
+  	this.fullname = fullname;
   	this.description = description;
+    this.email = email;
     this.dob = dob;
     this.dateCreated = new Date();
   }
@@ -32,8 +29,12 @@ public class User {
   	return username;
   }
 
-  public String getFullName() {
-  	return fullName;
+  public String getFullname() {
+  	return fullname;
+  }
+
+  public String getEmail() {
+    return email;
   }
 
   public String getDescription() {
@@ -52,12 +53,16 @@ public class User {
   	this.username = username;
   }
 
-  public void setfullName(String val) {
-  	this.fullName = val;
+  public void setFullname(String val) {
+  	this.fullname = val;
   }
 
   public void setDescription(String description){
     this.description = description;
+  }
+
+  public void setEmail(String email){
+    this.email = email;
   }
 
   public void setDOB(Date date){

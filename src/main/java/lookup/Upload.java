@@ -14,12 +14,9 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.taskqueue.Queue.*;
+import com.google.appengine.api.datastore.Query.GeoRegion.*;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.appengine.api.users.User;
@@ -59,6 +56,7 @@ public class Upload extends HttpServlet {
 	        	String blobkey = (String) blobKeys.get(0).getKeyString();
 	        	photo.setProperty("blobkey", blobkey);
 	        	photo.setProperty("public",pub);
+	        	photo.setProperty("location", new GeoPt(37.7913156f,-122.3926051f));
 	        	photo.setProperty("title",title);
 	        	photo.setProperty("owner",user.toString());
 
@@ -76,3 +74,8 @@ public class Upload extends HttpServlet {
 
     }
 }
+
+
+// create a view image servlet
+// put that logic. 
+// return the result.
