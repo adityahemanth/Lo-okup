@@ -16,8 +16,11 @@ public class Photo {
 
 	private String title;
 	private String owner;
-	private String ownerID;
 	private String place;
+	private String url;
+	private String blobkey;
+	private int likes;
+	private boolean pub;
 	private String description;
 
 	public Photo() {
@@ -29,16 +32,20 @@ public class Photo {
 		return title;
 	}
 
-	public String getOwnerID(){
-		return ownerID;
-	}
-
 	public String getOwner() {
 		return owner;
 	}
 
 	public String getPlace() {
 		return place;
+	}
+
+	public boolean isPublic(){
+		return pub;
+	}
+
+	public String getURL(){
+		return url;
 	}
 
 	public String getDescription() {
@@ -49,12 +56,16 @@ public class Photo {
 		this.title = title;
 	}
 
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setURL(String url){
+		this.url = url;
 	}
 
-	public void setOwnerID(String ownerID) {
-		this.ownerID = ownerID;
+	public void setPublic(boolean bool){
+		pub = bool;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 	public void setPlace(String place) {
@@ -64,5 +75,5 @@ public class Photo {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 }

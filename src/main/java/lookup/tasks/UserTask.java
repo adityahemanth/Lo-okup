@@ -15,6 +15,7 @@ import lookup.models.*;
 
 
 // this saves the User data that is passed to this class.
+// These are registered users of the site
 
 public class UserTask { 
 
@@ -35,6 +36,7 @@ public class UserTask {
 		Entity newUser = new Entity(ENTITY, user.getEmail());
 		newUser.setProperty("username", user.getUsername());
 		newUser.setProperty("fullname", user.getFullname());
+		newUser.setProperty("picBlob", user.getPicBlob());
 		newUser.setProperty("email", user.getEmail());
 		newUser.setProperty("description", user.getDescription());
 		newUser.setProperty("dob", user.getDOB());

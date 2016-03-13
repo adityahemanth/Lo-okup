@@ -37,26 +37,25 @@
     User user = userService.getCurrentUser();
     if (user != null) {
         pageContext.setAttribute("user", user);
+        Key userKey = KeyFactory.createKey("User", user.toString());
+     
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Entity currentUser;
+    
+        try {
+            currentUser = datastore.get(userKey);
+            response.sendRedirect("/index.jsp");    
+        } catch (Exception e) {
+            // User doesn't exist!
+            
+        }
 
    
-} else {
+    } else {
 	
 	String url = "/login.jsp";
     response.sendRedirect(url);
     }
-	
-    Key userKey = KeyFactory.createKey("User", user.toString());
-	 
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	Entity currentUser;
-	
-	try {
-	    currentUser = datastore.get(userKey);
-	    response.sendRedirect("/index.jsp");	
-	} catch (Exception e) {
-	    // User doesn't exist!
-		
-	}
 
 %>
 

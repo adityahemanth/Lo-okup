@@ -6,6 +6,7 @@ import java.util.*;
 // JAX-RS supports an automatic mapping from JAXB annotated class to XML and JSON
 public class User {
   private String username;
+  private String picBlob;
   private String email;
   private String fullname;
   private String description;
@@ -49,6 +50,10 @@ public class User {
     return dateCreated;
   }
 
+  public String getPicBlob(){
+    return picBlob;
+  }
+
   public void setusername(String username){
   	this.username = username;
   }
@@ -67,6 +72,10 @@ public class User {
 
   public void setDOB(Date date){
   	this.dob = date;
+  }
+
+  public void setPicBlob(String picBlob) {
+    this.picBlob = picBlob;
   }
 
 } 

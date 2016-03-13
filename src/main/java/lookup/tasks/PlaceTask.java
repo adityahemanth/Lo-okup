@@ -18,13 +18,13 @@ import lookup.models.*;
 
 // this saves the User data that is passed to this class.
 
-public class PhotoTask { 
+public class PlaceTask { 
 
 	private static DatastoreService datastore;
 	private static MemcacheService syncCache;
-	private static final String ENTITY = "Photo";
+	private static final String ENTITY = "Place";
 	
-	public PhotoTask() {
+	public PlaceTask() {
 
 		// instantiating the datastore and memcache objects
 		datastore = DatastoreServiceFactory.getDatastoreService();
@@ -35,18 +35,14 @@ public class PhotoTask {
 
 	// stores the User data passed in to data store. 
 	// Memcache storage is not necessary.
-	public void addPhoto(lookup.models.Photo photo) {
+	public void addPlace(lookup.models.Place place) {
 
-		Key placeKey = KeyFactory.createKey("User", photo.getPlace());
-
-		Entity newPhoto = new Entity(ENTITY, placeKey);
-		newPhoto.setProperty("owner", photo.getOwner());
-		newPhoto.setProperty("title", photo.getTitle());
-		newPhoto.setProperty("place", photo.getPlace());
-		newPhoto.setProperty("description", photo.getDescription());
-		datastore.put(newPhoto);
-		syncCache.put(photo.getOwner(), newPhoto);
-
+		Entity newPlace = new Entity(ENTITY, place.getTitle());
+		newPlace.setProperty("title", place.getTitle());
+		newPlace.setProperty("location", place.getLocation());
+		newPlace.setProperty("description", place.getDescription());
+		datastore.put(newPlace);
+		syncCache.put(place.getTitle(),newPlace);
 	}
 
 

@@ -44,19 +44,23 @@ public class Upload extends HttpServlet {
 	        List<BlobKey> blobKeys = blobs.get("photo");
 	        String owner = (String) user.toString();
 	        String title = (String) req.getParameter("title");
+	        String description = (String) req.getParameter("description");
 	        String pub = req.getParameter("public");
+	        float lat = Float.parseFloat(req.getParameter("lat"));
+	        float lng = Float.parseFloat(req.getParameter("lng"));
+	        GeoPt location = new GeoPt(lat,lng);
 
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            res.sendRedirect("/");
 	        } else {
 
-	        	Key userkey = KeyFactory.createKey("User", user.toString());
-
-	        	Entity photo = new Entity("Photo",userkey);
+	        	Key photokey = KeyFactory.createKey("Photo", title);
+	        	Entity photo = new Entity("Photo",photokey);
 	        	String blobkey = (String) blobKeys.get(0).getKeyString();
 	        	photo.setProperty("blobkey", blobkey);
 	        	photo.setProperty("public",pub);
-	        	photo.setProperty("location", new GeoPt(37.7913156f,-122.3926051f));
+	        	photo.setProperty("description",description);
+	        	photo.setProperty("location", location);
 	        	photo.setProperty("title",title);
 	        	photo.setProperty("owner",user.toString());
 

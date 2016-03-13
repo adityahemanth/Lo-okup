@@ -36,18 +36,18 @@ public class Hello {
   }
 
   // Return the list of todos for applications
-  @GET
-  @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-  public List<String> getTodos() {
+  // @GET
+  // @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+  // public List<String> getTodos() {
 
-  	// String objects
-  	String str1 = "Hello 1";
-  	String str2 = "Hello 2";
-    List<String> results = new ArrayList<String>();
-    results.add(str1);
-    results.add(str2);
-    return results;
-  }
+  // 	// String objects
+  // 	String str1 = "Hello 1";
+  // 	String str2 = "Hello 2";
+  //   List<String> results = new ArrayList<String>();
+  //   results.add(str1);
+  //   results.add(str2);
+  //   return results;
+  // }
 
   // retuns the number of todos
   // Use http://localhost:8080/com.vogella.jersey.todo/rest/todos/count
