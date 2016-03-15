@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import com.google.appengine.api.datastore.*;
 
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class Photo {
 	private int likes;
 	private boolean pub;
 	private String description;
+	private GeoPt location;
 
 	public Photo() {
 		// empty constructor
@@ -46,6 +48,10 @@ public class Photo {
 
 	public String getURL(){
 		return url;
+	}
+
+	public GeoPt getLocation(){
+		return location;
 	}
 
 	public String getDescription() {
@@ -74,6 +80,10 @@ public class Photo {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setLocation(GeoPt loc){
+		location = loc;
 	}
 	
 }

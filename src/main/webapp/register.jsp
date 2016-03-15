@@ -88,7 +88,7 @@
       <form id="reg-form" class="login-form" role="form" action = "/settings">
         <div class="row">
           <div class="input-field col s12 center">
-            <img src="images/logo.png" alt="" class="circle responsive-img valign profile-image-login">
+            <img src="images/logo.png" alt="" style="width:300px; height:300px;" class="circle responsive-img valign profile-image-login">
             <p class="center login-form-text">Discover & Share  </p>
           </div>
         </div>

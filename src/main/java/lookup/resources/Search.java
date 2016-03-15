@@ -17,7 +17,6 @@ import com.google.appengine.api.users.*;
 import com.google.appengine.api.blobstore.*;
 import com.google.appengine.api.images.*;
 
-
 import lookup.models.*;
 
 @Path("/latlng")
@@ -29,7 +28,7 @@ UserService userService = UserServiceFactory.getUserService();
 
 	@GET
 	@Produces( MediaType.APPLICATION_JSON )
-	public ArrayList<Photo> getActivity(@QueryParam("radius") double radius,
+	public ArrayList<Photo> getphoto(@QueryParam("radius") double radius,
 		  @QueryParam("lat") float lat, @QueryParam("lng") float lng)
 		{
 		
@@ -44,8 +43,10 @@ UserService userService = UserServiceFactory.getUserService();
 
             for (Entity result : pq.asIterable()) {
             	BlobKey blobKey = new BlobKey(result.getProperty("blobkey").toString());
+            	GeoPt loc = (GeoPt) result.getProperty("location");
             	photo = new Photo();
             	photo.setURL(imagesService.getServingUrl(blobKey));
+            	photo.setLocation(loc);
             	photo.setOwner((String) result.getProperty("owner"));
             	photo.setTitle((String) result.getProperty("title"));
             	photo.setDescription((String) result.getProperty("description"));
@@ -54,13 +55,5 @@ UserService userService = UserServiceFactory.getUserService();
 
 		return photolist;	
 	}
-
-
-	@POST
-	@Consumes("application/json")
-	public void createActivity( Photo photo) {
-		
-	}
-
 
 }

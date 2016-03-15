@@ -47,7 +47,7 @@
     User user = userService.getCurrentUser();
     %>
 
-        <form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
+        <form action="<%= blobstoreService.createUploadUrl("/rest/upload") %>" method="post" enctype="multipart/form-data">
            <div class="row margin">
               <div class="input-field col s12">
                 <input type="text" name="title" id="title" class="form-control input-sm">
@@ -69,7 +69,7 @@
             <input type="radio" name="public" id="private" value="false">
             <label for="private">Private</label>
             </div>
-            
+
             <div class="row">
 
               <label for="map" > Location </label>
@@ -78,6 +78,7 @@
               </div>
             </div>
 
+        <input class="hide validate" id="user" name="user"></input>
         <input class="hide validate" id="lat" name="lat"></input>
         <input class="hide validate" id="lng" name="lng"></input>
         <div class="row">
@@ -123,6 +124,7 @@
         var lat = $("#lat");
         var lng = $("#lng");
         if ((lat != null || lat != "") && (lng != null || lng != "")) {
+            $("#user").val(user.toString());
             document.getElementById('upload-form').submit();
         }
       }

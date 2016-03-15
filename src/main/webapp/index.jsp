@@ -31,6 +31,7 @@
     <title>Lo-okup</title>
 
     <!-- Bootstrap core CSS -->
+    <link href="css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="css/dropify.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="css/styles.css" type="text/css" rel="stylesheet" media="screen,projection">
@@ -42,6 +43,7 @@
    </head>
 
   <body class="blue-grey lighten-5">
+
 
   <%
 
@@ -94,36 +96,95 @@
       <!-- Example row of columns -->
 
 
-   <div class= "container" style="margin-top: 6em">
+   <div class= "container" style="padding-top:50px;" >
 
-    <div id="map" class="card z-depth-2 hide" style="width:100%; height:500px;"></div>
 
-    <nav class="search-bar">
-    <div class="nav-wrapper">
-      <form>
-        <div class="input-field">
-          <input id="search" type="search" value="" required>
-          <label for="search"><i class="material-icons">search</i></label>
-        </div>
-      </form>
+    <div class="card z-depth-1" style = "padding:20px">
+
+    <div class="row">
+     <div class="input-field col s6">
+      <i class="material-icons prefix">search</i>
+      <input id="search" type="text" class="validate">
     </div>
-    </nav>
+    <div class="input-field col s3">
+      <i class="material-icons prefix">straighten</i>
+      <input id="radius" type="number" placeholder="5" min="5" max="50" class="validate">
+      <label for="radius">Search Radius (Kms) </label>
+    </div>
+
+     <div class="col s3" style="padding-top:15px; padding-left:100px;"> <a class="waves-effect waves-light btn" onclick="dosearch()">Search</a></div>
+    </div>
+    <div id="map" style="width:100%; height:450px;"></div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div id="log"> </div>
 
         <div  class="row">
-          <div id="photo-container" class="col l12">
-           
+          <div id="photo-container" class="col l12"  style="min-height:600px">
+
+          <div class="row">
+          <div class="col s2 offset-s5" style="padding-bottom:200px;">
+          <div class="align-center preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
       </div>
     </div>
 
       <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 5em; right: 8em;">
-        <a class="btn-floating btn-large red">
+        <a class="btn-floating btn-large red" href="/upload.jsp">
           <i class="material-icons">add</i>
         </a>
-        <ul>
-          <li><a class="btn-floating btn-large red"><i class="material-icons">insert_chart</i></a></li>
-          <li><a class="btn-floating btn-large yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-          <li><a class="btn-floating btn-large green"  href="/upload.jsp"><i class="material-icons">publish</i></a></li>
-        </ul>
       </div>
 
 
@@ -155,52 +216,6 @@
       </footer>
 
 
-
-  <!-- Upload Modal Structure -->
-
-  <div id="upload" class="modal">
-    <div class="modal-content">
-
-    <% 
-      BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    %>
-    <div class = "container">
-        <form id="upload-form" action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
-
-            <div class="row margin">
-              <div class="input-field col s12">
-                <input type="text" name="title" id="title" class="form-control input-sm">
-                <label for="title" class="center-align">Title</label>
-              </div>
-            </div>
-
-            <input type="radio" name="public" id="public" value="true" checked>
-            <label for="public">Public</label>
-            
-            <input type="radio" name="public" id="private" value="false">
-            <label for="private">Private</label>
-
-             <div class="row section">
-              <div class="col s12 m4 l3">
-                 <p>Upload Image</p>
-              </div>
-              <div class="col s12 m8 l9">
-                  <input type="file" name="photo" id="input-file-now" class="dropify" data-default-file="" />
-              </div>
-            </div>
-
-        </form>
-
-    </div>
-
-    <div class="modal-footer">
-     <button class="btn waves-effect waves-light" onclick="document.getElementById('upload-form').submit()" type="submit" name="action">Submit
-      <i class="material-icons right">send</i>
-    </button>
-    </div>
-  </div>
-
-
   <div class="hide row" id="column-template">
     <div class="col l4" style="padding: 20px">
 
@@ -215,10 +230,11 @@
         </div>
         <div class="card-content">
           <span class="card-title activator grey-text text-darken-4" style="text-transform: capitalize">{title_to_replace}<i class="material-icons right">more_vert</i></span>
-
-          <div class="card-action" style="padding-top: 20px;padding-bottom: 20px;margin-bottom: -20px;">
-          <a href="#"><i class="material-icons" style="padding-right: 20px;">favorite_border</i></a>
-          <a href="#"><i class="material-icons">rate_review</i></a>
+          </div>
+          <div class="card-action" style="padding-top: 20px;padding-bottom: 20px;">
+          <div class="chip">
+            <p style="margin-top:-1px;">{author_to_replace}<p>
+            <i class="material-icons">account_circle</i>
           </div>
         </div>
         <div class="card-reveal" style="display: none; transform: translateY(0px);">
@@ -231,12 +247,37 @@
     </div>
 
 
+    <!-- template for no content -->
+    <div class="hide">
+    <div class="row" id="empty-template">
+    <div class="col l12" style="padding: 20px">
+
+      <h2 class="amber-text"> Sorry, there are no images around you! </h2>
+      <h4 class="grey-text"> You can upload a few </h4>
+
+      </div>
+    </div>
+    </div>
+
+     <!-- template for header -->
+    <div class="hide">
+    <div class="row" id="header-template">
+    <div class="col l12" style="padding: 20px">
+
+      <h4 class="pink-text"> Places around you! </h4>
+      <h6 class="grey-text text-darken-4"> You too can upload a few. </h6>
+
+      </div>
+    </div>
+    </div>
+
+
 
   <!-- Scripts -->
   <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
   <script type="text/javascript" src="js/materialize.js"></script>
   <script type="text/javascript" src="js/dropify.min.js"></script>
-  <script type="text/javascript" src="js/maps.js"></script>
+  <script type="text/javascript" src="js/map.js"></script>
 
   <script>
     $(document).ready(function(){
@@ -246,87 +287,7 @@
   });
   </script>
 
-  <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-
-      function setAddress(address){
-        $("#search").val(address);
-      }
-
-      function initMap() {
-        var marker = null;
-        var position;
-        var geocoder = new google.maps.Geocoder;
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 33.397, lng: -110.644},
-          zoom: 6
-        });
-        var infoWindow = new google.maps.InfoWindow({map: map});
-        google.maps.event.addListener(map, 'click', function(event) {
-          //call function to create marker
-              position = event.latLng;
-              //delete the old marker
-              if (marker) { marker.setMap(null); }
-              //create a new marker
-              marker = new google.maps.Marker({ position: position, map: map});
-          });
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            map.setCenter(pos);
-            geocoder.geocode({'location': pos}, function(results, status) {
-               if (status === google.maps.GeocoderStatus.OK) {
-                  setAddress(results[1].formatted_address);
-                  $.get( "http://localhost:8080/rest/latlng", {radius : 5000, lat : pos.lat, lng : pos.lng}, function( data ) {
-                         var count = data.length - 1; 
-
-                         for(;count >= 0; count--){
-                            
-                          var url = data[count].url;
-                          var desp = data[count].description;
-                          var title = data[count].title;
-                          var $template = $("#column-template").html(); // html as string
-                          $template = $template.replace("{title_to_replace}",title);
-                          $template = $template.replace("{title_to_replace}",title);
-                          $template = $template.replace("{desp_to_replace}",desp);
-                          $template = $template.replace("{url_to_replace}",url);
-                          $("#title1").text(data[count].title);
-                          $("#photo-container").append($template);
-
-                         }
-                  });
-               }
-            });
-
-
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }
-
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-      }
-
-    </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIQSkRfPT5yc5A8i27PjWnqwKqnUgBzqE&callback=initMap" async defer></script>
-
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIQSkRfPT5yc5A8i27PjWnqwKqnUgBzqE&sensor=true&libraries=places&callback=initAutocomplete" async defer></script>
 
   <%
 
