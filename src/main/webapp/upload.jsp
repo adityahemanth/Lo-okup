@@ -45,9 +45,12 @@
     <%
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
+
+    if(user != null) {
+
     %>
 
-        <form action="<%= blobstoreService.createUploadUrl("/rest/upload") %>" method="post" enctype="multipart/form-data">
+        <form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
            <div class="row margin">
               <div class="input-field col s12">
                 <input type="text" name="title" id="title" class="form-control input-sm">
@@ -62,7 +65,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row hide">
             <input type="radio" name="public" id="public" value="true" checked>
             <label for="public">Public</label>
             
@@ -78,7 +81,7 @@
               </div>
             </div>
 
-        <input class="hide validate" id="user" name="user"></input>
+        <input class="hide " id="user" name="user" value="<%= user.toString()%>"></input>
         <input class="hide validate" id="lat" name="lat"></input>
         <input class="hide validate" id="lng" name="lng"></input>
         <div class="row">
@@ -86,7 +89,7 @@
         </div>
 
         <div class="row">
-            <button class="btn waves-effect waves-light col sm6 offset-sm3" onclick="validate()" type="submit" name="action">Submit
+            <button class="btn waves-effect waves-light col sm6 offset-sm3" onclick="validateForm()" >Submit
               <i class="material-icons right">send</i>
             </button>
         </div>
@@ -124,9 +127,12 @@
         var lat = $("#lat");
         var lng = $("#lng");
         if ((lat != null || lat != "") && (lng != null || lng != "")) {
-            $("#user").val(user.toString());
-            document.getElementById('upload-form').submit();
+            document.getElementById('upload-form').submit(function(data){
+                alert("Data: " + data);
+            });
+
         }
+
       }
 
 
@@ -175,6 +181,14 @@
       }
 
     </script>
+
+    <%
+
+    } else {
+        response.sendRedirect("/login.jsp");    
+    }
+
+    %>
 
   <!--prism-->
 

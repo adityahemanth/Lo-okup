@@ -19,6 +19,7 @@ import com.google.appengine.api.taskqueue.Queue.*;
 import com.google.appengine.api.datastore.Query.GeoRegion.*;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.google.appengine.api.taskqueue.TaskOptions.Method;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.memcache.*;
 import com.google.appengine.api.users.UserService;
@@ -42,38 +43,24 @@ public class Upload extends HttpServlet {
 
 	        Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
 	        List<BlobKey> blobKeys = blobs.get("photo");
+
+	        String blobkey = (String) blobKeys.get(0).getKeyString();
 	        String owner = (String) user.toString();
 	        String title = (String) req.getParameter("title");
 	        String description = (String) req.getParameter("description");
 	        String pub = req.getParameter("public");
-	        float lat = Float.parseFloat(req.getParameter("lat"));
-	        float lng = Float.parseFloat(req.getParameter("lng"));
-	        GeoPt location = new GeoPt(lat,lng);
+	        String lat = req.getParameter("lat");
+	        String lng = req.getParameter("lng");
 
-	        if (blobKeys == null || blobKeys.isEmpty()) {
-	            res.sendRedirect("/");
-	        } else {
 
-	        	Key photokey = KeyFactory.createKey("Photo", title);
-	        	Entity photo = new Entity("Photo",photokey);
-	        	String blobkey = (String) blobKeys.get(0).getKeyString();
-	        	photo.setProperty("blobkey", blobkey);
-	        	photo.setProperty("public",pub);
-	        	photo.setProperty("description",description);
-	        	photo.setProperty("location", location);
-	        	photo.setProperty("title",title);
-	        	photo.setProperty("owner",user.toString());
+	      
+        	//puting it in datastore and memcache
+			com.google.appengine.api.taskqueue.Queue queue = QueueFactory.getDefaultQueue();
+   			queue.add(TaskOptions.Builder.withUrl("/rest/upload").param("blob", blobkey).param("user",owner)
+   				.param("title",title).param("description",description).param("public",pub).param("lat",lat).param("lng",lng).method(Method.POST));
 
-	        	// have to make it a cron job
-	        	Date date = new Date();
-	        	photo.setProperty("uploaded",date);
-	        	datastore.put(photo);
-
-	        	//puting it in datastore and memcache
-				res.sendRedirect("/index.jsp");
-
-	            //res.sendRedirect("/serve?blob-key=" + blobKeys.get(0).getKeyString());
-	        }
+            //res.sendRedirect("/serve?blob-key=" + blobKeys.get(0).getKeyString());
+            res.sendRedirect("/index.jsp");
     	}
 
     }
